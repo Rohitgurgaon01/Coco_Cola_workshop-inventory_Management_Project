@@ -1,0 +1,84 @@
+-- EMPLOYEE INFO TABLE
+CREATE TABLE Employee_info
+(
+    E_ID INT PRIMARY KEY,
+    E_Name VARCHAR(20),
+    E_Department VARCHAR(10),
+    Age INT,
+    Aadhar_Card VARCHAR(15) UNIQUE NOT NULL,
+    PAN_Number VARCHAR(15),
+    E_Salary DECIMAL(10,2)
+);
+
+INSERT INTO Employee_info VALUES
+(101,'Aman','MGR',25,'185622458965','85LK6324',151536.85),
+(102,'Bhabhuk','AMC',35,'285622458965','25BS8543',15164.85),
+(103,'Vimal','Spoke',45,'385622458965','35CS8543',45015.45),
+(104,'Hemal','Hub',55,'485622458965','45DS8543',35063.45),
+(105,'Shivam','AMC',29,'585622458965','55ES8543',85065.45);
+
+-- EMPLOYEE ADDRESS TABLE
+CREATE TABLE Employee_add
+(
+    E_ID INT,
+    E_Address VARCHAR(20),
+    Phone_Number VARCHAR(15),
+    Other_Number VARCHAR(15),
+    Email VARCHAR(30),
+    FOREIGN KEY (E_ID) REFERENCES Employee_info(E_ID)
+);
+
+INSERT INTO Employee_add VALUES
+(101,'Mumbai','1541030147','9632014530','aman@gmail.com'),
+(102,'Pune','254130147','8632014530','bhabhuk@gmail.com'),
+(103,'Patna','3541030147','7632014530','vimal@gmail.com'),
+(104,'Bihar','4541030147','6632014530','hemal@gmail.com'),
+(105,'Delhi','5541030147','5632014530','shivam@gmail.com');
+
+-- PERFORMANCE TABLE
+CREATE TABLE performance
+(
+    E_ID INT,
+    Performance VARCHAR(2),
+    next_target INT,
+    previous_target INT,
+    achived INT,
+    FOREIGN KEY (E_ID) REFERENCES Employee_info(E_ID)
+);
+
+INSERT INTO performance VALUES
+(101,'A+',854,630,530),
+(102,'B',965,930,430),
+(103,'A',632,630,330),
+(104,'C+',986,630,430),
+(105,'B',1860,1030,590);
+
+-- LAST STATUS TABLE
+CREATE TABLE last_status
+(
+    E_ID INT,
+    activity_status CHAR(3),
+    O_ID INT UNIQUE,
+    Items VARCHAR(10),
+    Payment_method VARCHAR(10),
+    Amount INT,
+    FOREIGN KEY (E_ID) REFERENCES Employee_info(E_ID)
+);
+
+INSERT INTO last_status VALUES
+(101,'YES',6532,'RGB','CASH',589),
+(102,'YES',6502,'PET','UPI',16589),
+(103,'NO',1532,'RGB','CHEQUE',26589),
+(104,'YES',7532,'Water','CASH',36589),
+(105,'YES',9532,'SPARKLING','CC',5589);
+
+-- OUTPUT QUERIES
+SELECT * FROM Employee_info;
+
+SELECT E.E_ID, E.E_Name, A.E_Address
+FROM Employee_info E
+INNER JOIN Employee_add A ON E.E_ID = A.E_ID;
+
+SELECT E.E_ID, E.E_Name, P.Performance
+FROM Employee_info E
+LEFT JOIN performance P ON E.E_ID = P.E_ID;
